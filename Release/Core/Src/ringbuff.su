@@ -1,0 +1,6 @@
+ringbuff.c:5:10:getLastElement	0	static
+ringbuff.c:15:10:getOldestElement	0	static
+ringbuff.c:25:10:getElementByIdx	8	static
+ringbuff.c:46:6:bufferAddElement	8	static
+ringbuff.c:99:9:bufferClear	0	static
+ringbuff.c:82:9:bufferInit	8	static
