@@ -882,6 +882,7 @@ int main(void)
   uint32_t addr = 0x08010010;
  80008de:	4b35      	ldr	r3, [pc, #212]	; (80009b4 <main+0x144>)
  80008e0:	f8c7 31b4 	str.w	r3, [r7, #436]	; 0x1b4
+
   if(HAL_OK == HAL_FLASH_Unlock())
  80008e4:	f000 ff7c 	bl	80017e0 <HAL_FLASH_Unlock>
  80008e8:	4603      	mov	r3, r0
@@ -923,7 +924,6 @@ int main(void)
 
 	  HAL_FLASH_Lock();
  8000934:	f000 ff76 	bl	8001824 <HAL_FLASH_Lock>
-
   }
 
   HAL_UART_Receive_IT(&huart3, (uint8_t*)&RX.c, 1);

@@ -86,6 +86,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   uint32_t addr = 0x08010010;
+
   if(HAL_OK == HAL_FLASH_Unlock())
   {
 	 //HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, ptr, 0x00000000);
@@ -97,7 +98,6 @@ int main(void)
 	  }
 
 	  HAL_FLASH_Lock();
-
   }
 
   HAL_UART_Receive_IT(&huart3, (uint8_t*)&RX.c, 1);
