@@ -103,9 +103,6 @@ int main(void)
   HAL_UART_Receive_IT(&huart3, (uint8_t*)&RX.c, 1);
 
 
-
-
-
   while(1)
   {
 
