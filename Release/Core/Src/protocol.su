@@ -1,2 +1,2 @@
-protocol.c:3:6:RXbufferClear	0	static
-protocol.c:18:14:prarseRxBuffer	56	static
+protocol.c:4:6:RXbufferClear	0	static
+protocol.c:19:14:prarseRxBuffer	64	static

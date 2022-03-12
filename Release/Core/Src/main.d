@@ -31,7 +31,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  C:/Users/Mariusz/STM32Cube/Repository/STM32Cube_FW_F7_V1.16.2/Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_usb.h \
  C:/Users/Mariusz/STM32Cube/Repository/STM32Cube_FW_F7_V1.16.2/Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pcd_ex.h \
  ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/usb_otg.h \
- ../Core/Inc/gpio.h ../Core/Src/ringbuff.h ../Core/Inc/protocol.h
+ ../Core/Inc/gpio.h ../Core/Inc/ringbuff.h ../Core/Inc/protocol.h \
+ ../Core/Inc/commands.h ../Core/Inc/ringbuff.h
 
 ../Core/Inc/main.h:
 
@@ -105,6 +106,10 @@ C:/Users/Mariusz/STM32Cube/Repository/STM32Cube_FW_F7_V1.16.2/Drivers/STM32F7xx_
 
 ../Core/Inc/gpio.h:
 
-../Core/Src/ringbuff.h:
+../Core/Inc/ringbuff.h:
 
 ../Core/Inc/protocol.h:
+
+../Core/Inc/commands.h:
+
+../Core/Inc/ringbuff.h:
