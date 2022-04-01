@@ -91,9 +91,10 @@ int main(void)
   {
 	 //HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, ptr, 0x00000000);
 	  int i = 0;
-	  char* n = "Hello world!";
-	  for(;i < 13; ++i)
+	  char* n = "Hello flash memory!!!";
+	  for(;i < strlen(n); ++i)
 	  {
+		  //FLASH_Erase_Sector(FLASH_SECTOR_20, FLASH_VOLTAGE_RANGE_3);
 		  HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, addr + i, n[i]);
 	  }
 
