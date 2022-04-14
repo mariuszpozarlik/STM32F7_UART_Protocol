@@ -1,0 +1,9 @@
+C:\Users\Mariusz\source\repos\port_szeregowy\port_szeregowy\bin\Debug\port_szeregowy.exe.config
+C:\Users\Mariusz\source\repos\port_szeregowy\port_szeregowy\bin\Debug\port_szeregowy.exe
+C:\Users\Mariusz\source\repos\port_szeregowy\port_szeregowy\bin\Debug\port_szeregowy.pdb
+C:\Users\Mariusz\source\repos\port_szeregowy\port_szeregowy\obj\Debug\EZ_serial_monitor.Form1.resources
+C:\Users\Mariusz\source\repos\port_szeregowy\port_szeregowy\obj\Debug\port_szeregowy.Properties.Resources.resources
+C:\Users\Mariusz\source\repos\port_szeregowy\port_szeregowy\obj\Debug\EZ_serial_monitor.csproj.GenerateResource.cache
+C:\Users\Mariusz\source\repos\port_szeregowy\port_szeregowy\obj\Debug\EZ_serial_monitor.csproj.CoreCompileInputs.cache
+C:\Users\Mariusz\source\repos\port_szeregowy\port_szeregowy\obj\Debug\port_szeregowy.exe
+C:\Users\Mariusz\source\repos\port_szeregowy\port_szeregowy\obj\Debug\port_szeregowy.pdb
