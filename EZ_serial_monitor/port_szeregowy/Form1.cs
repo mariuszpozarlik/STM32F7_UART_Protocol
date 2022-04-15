@@ -30,33 +30,50 @@ namespace EZ_serial_monitor
 
         public Form1()
         {
-            
-            //t = new Thread(new ThreadStart(update));
+            t = new Thread(testPorts_thread);
             InitializeComponent();
-            foreach(string port in availablePorts)
-            {
-                comboBox1.Items.Add(port);
-            }
+
             foreach (int baud in baudRates)
             {
                 comboBox2.Items.Add(baud);
             }
-            comboBox2.SelectedItem = 9600;
+            comboBox2.SelectedItem = baudRates[2];
 
-            if (comboBox1.Items.Count > 0)
-            {
-                serialPort1.PortName = availablePorts[0];
-                comboBox1.SelectedItem = availablePorts[0];
-            }
-            //t.Start();
+            t.Start();
         }
+
+        private void updateCOMs(string[] ports)
+        {
+            if (this.comboBox1.InvokeRequired)
+            {
+                this.Invoke(new Action<string[]>(updateCOMs), new object[] { ports });
+                return;
+            }
+            comboBox1.Items.Clear();
+            foreach (string port in ports)
+            {
+                comboBox1.Items.Add(port);
+            }
+        }
+
+        private void testPorts_thread()
+        {            
+            while (true)
+            {
+                availablePorts = SerialPort.GetPortNames();
+                updateCOMs(availablePorts);
+
+                Thread.Sleep(1000);
+            }
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
             if(serialPort1.IsOpen)
             {
                 try
-                {
+                {                    
                     serialPort1.Write(textBox1.Text);                    
                 }
                 catch (System.IO.IOException)
@@ -65,6 +82,7 @@ namespace EZ_serial_monitor
                     richTextBox1.AppendText("Send error" + Environment.NewLine);
                     return;
                 }
+                catch { }
                 richTextBox1.AppendText(Environment.NewLine);
             }
         }
@@ -103,6 +121,8 @@ namespace EZ_serial_monitor
                     richTextBox1.AppendText(comboBox1.Text + " port error" + Environment.NewLine);
                     return;
                 }
+                catch { }
+                
                 status.BackColor = Color.Green;
                 comboBox1.Enabled = false;
             }
@@ -121,6 +141,7 @@ namespace EZ_serial_monitor
                     richTextBox1.SelectionColor = Color.Red;
                     richTextBox1.AppendText(comboBox1.Text + " port error" + Environment.NewLine);
                 }
+                catch { }
                 status.BackColor = Color.Red;
                 comboBox1.Enabled = true;
             }
@@ -128,31 +149,37 @@ namespace EZ_serial_monitor
 
         private void updateMsg(string s)
         {
-            if (InvokeRequired)
+            if (this.richTextBox1.InvokeRequired)
             {
                 this.Invoke(new Action<string>(updateMsg), new object[] { s });
                 return;
             }
             richTextBox1.SelectionColor = Color.Green;
-            richTextBox1.AppendText(s);
-            
+            richTextBox1.AppendText(s);            
         }
 
         private void onReceive(object sender, SerialDataReceivedEventArgs e)
         {
-            string reveive = "";
+            string receive = "";
             int timeout = serialPort1.BytesToRead;
-            while(timeout > 0)
+            
+            while (timeout > 0)
             {
-                reveive += Convert.ToChar(serialPort1.ReadByte());
+                receive += Convert.ToChar(serialPort1.ReadByte());
                 timeout--;
             }
-            updateMsg(reveive);
+            updateMsg(receive);
+
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             richTextBox1.Text = "";
         }        
+
+        private void Form_onClose(object sender, FormClosedEventArgs e)
+        {
+            t.Abort();
+        }
     }
 }
