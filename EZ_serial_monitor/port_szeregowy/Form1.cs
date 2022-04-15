@@ -26,15 +26,13 @@ namespace EZ_serial_monitor
             115200,
             128000
         };
-        //Thread t;
+        private Thread t;
 
         public Form1()
         {
             
-           // t = new Thread(new ThreadStart(update));
+            //t = new Thread(new ThreadStart(update));
             InitializeComponent();
-            //serialPort1.BaudRate = 115200;
-            //serialPort1.PortName = "COM5";
             foreach(string port in availablePorts)
             {
                 comboBox1.Items.Add(port);
@@ -50,7 +48,7 @@ namespace EZ_serial_monitor
                 serialPort1.PortName = availablePorts[0];
                 comboBox1.SelectedItem = availablePorts[0];
             }
-           // t.Start();
+            //t.Start();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -63,9 +61,11 @@ namespace EZ_serial_monitor
                 }
                 catch (System.IO.IOException)
                 {
+                    richTextBox1.SelectionColor = Color.Red;
+                    richTextBox1.AppendText("Send error" + Environment.NewLine);
                     return;
                 }
-                textBox2.Text += Environment.NewLine;
+                richTextBox1.AppendText(Environment.NewLine);
             }
         }
 
@@ -76,7 +76,15 @@ namespace EZ_serial_monitor
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            serialPort1.BaudRate = int.Parse(comboBox2.SelectedItem.ToString());
+            try
+            {
+                serialPort1.BaudRate = int.Parse(comboBox2.SelectedItem.ToString());
+            }
+            catch (System.IO.IOException)
+            {
+                richTextBox1.SelectionColor = Color.Red;
+                richTextBox1.AppendText("Can't change baudrate" + Environment.NewLine);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -91,6 +99,8 @@ namespace EZ_serial_monitor
                 {
                     status.BackColor = Color.Red;
                     comboBox1.Enabled = true;
+                    richTextBox1.SelectionColor = Color.Red;
+                    richTextBox1.AppendText(comboBox1.Text + " port error" + Environment.NewLine);
                     return;
                 }
                 status.BackColor = Color.Green;
@@ -108,23 +118,24 @@ namespace EZ_serial_monitor
                 }
                 catch (System.IO.IOException)
                 {
-                    status.BackColor = Color.Red;
-                    comboBox1.Enabled = true;
-                    return;
+                    richTextBox1.SelectionColor = Color.Red;
+                    richTextBox1.AppendText(comboBox1.Text + " port error" + Environment.NewLine);
                 }
                 status.BackColor = Color.Red;
                 comboBox1.Enabled = true;
             }
         }
 
-        private void update(string s)
+        private void updateMsg(string s)
         {
             if (InvokeRequired)
             {
-                this.Invoke(new Action<string>(update), new object[] { s });
+                this.Invoke(new Action<string>(updateMsg), new object[] { s });
                 return;
             }
-            textBox2.Text += s;
+            richTextBox1.SelectionColor = Color.Green;
+            richTextBox1.AppendText(s);
+            
         }
 
         private void onReceive(object sender, SerialDataReceivedEventArgs e)
@@ -135,13 +146,13 @@ namespace EZ_serial_monitor
             {
                 reveive += Convert.ToChar(serialPort1.ReadByte());
                 timeout--;
-            }            
-            update(reveive);
+            }
+            updateMsg(reveive);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            textBox2.Clear();
+            richTextBox1.Text = "";
         }        
     }
 }

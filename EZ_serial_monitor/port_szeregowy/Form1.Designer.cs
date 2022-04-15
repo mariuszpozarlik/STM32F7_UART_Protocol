@@ -36,9 +36,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.status = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // serialPort1
@@ -47,9 +47,10 @@
             // 
             // button1
             // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Location = new System.Drawing.Point(12, 42);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(69, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = "Send";
             this.button1.UseVisualStyleBackColor = true;
@@ -65,6 +66,7 @@
             // comboBox1
             // 
             this.comboBox1.AllowDrop = true;
+            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(12, 71);
             this.comboBox1.Name = "comboBox1";
@@ -74,9 +76,10 @@
             // 
             // button2
             // 
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Location = new System.Drawing.Point(139, 69);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(99, 23);
             this.button2.TabIndex = 3;
             this.button2.Text = "Open COM";
             this.button2.UseVisualStyleBackColor = true;
@@ -84,9 +87,10 @@
             // 
             // button3
             // 
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Location = new System.Drawing.Point(139, 99);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(99, 23);
             this.button3.TabIndex = 4;
             this.button3.Text = "Close COM";
             this.button3.UseVisualStyleBackColor = true;
@@ -96,26 +100,19 @@
             // 
             this.status.BackColor = System.Drawing.Color.Red;
             this.status.Enabled = false;
-            this.status.Location = new System.Drawing.Point(220, 69);
+            this.status.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.status.Location = new System.Drawing.Point(207, 16);
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(25, 25);
+            this.status.Size = new System.Drawing.Size(31, 29);
             this.status.TabIndex = 5;
             this.status.UseVisualStyleBackColor = false;
             // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(13, 158);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(216, 242);
-            this.textBox2.TabIndex = 6;
-            // 
             // button4
             // 
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Location = new System.Drawing.Point(139, 129);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.Size = new System.Drawing.Size(99, 23);
             this.button4.TabIndex = 7;
             this.button4.Text = "Clear";
             this.button4.UseVisualStyleBackColor = true;
@@ -124,6 +121,7 @@
             // comboBox2
             // 
             this.comboBox2.AllowDrop = true;
+            this.comboBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Location = new System.Drawing.Point(13, 99);
             this.comboBox2.Name = "comboBox2";
@@ -131,14 +129,25 @@
             this.comboBox2.TabIndex = 8;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.richTextBox1.Location = new System.Drawing.Point(13, 158);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(225, 242);
+            this.richTextBox1.TabIndex = 9;
+            this.richTextBox1.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(250, 412);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.status);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -161,9 +170,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button status;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 
