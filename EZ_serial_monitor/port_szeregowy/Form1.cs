@@ -57,7 +57,14 @@ namespace EZ_serial_monitor
         {
             if(serialPort1.IsOpen)
             {
-                serialPort1.Write(textBox1.Text);
+                try
+                {
+                    serialPort1.Write(textBox1.Text);                    
+                }
+                catch (System.IO.IOException)
+                {
+                    return;
+                }
                 textBox2.Text += Environment.NewLine;
             }
         }
@@ -74,21 +81,39 @@ namespace EZ_serial_monitor
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(!serialPort1.IsOpen)
+            if (!serialPort1.IsOpen)
             {
-                serialPort1.Open();
+                try
+                {
+                    serialPort1.Open();
+                }
+                catch (System.IO.IOException)
+                {
+                    status.BackColor = Color.Red;
+                    comboBox1.Enabled = true;
+                    return;
+                }
                 status.BackColor = Color.Green;
                 comboBox1.Enabled = false;
-            }            
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
             {
-                serialPort1.Close();
+                try
+                {
+                    serialPort1.Close();
+                }
+                catch (System.IO.IOException)
+                {
+                    status.BackColor = Color.Red;
+                    comboBox1.Enabled = true;
+                    return;
+                }
                 status.BackColor = Color.Red;
-                comboBox1.Enabled = true;                
+                comboBox1.Enabled = true;
             }
         }
 
