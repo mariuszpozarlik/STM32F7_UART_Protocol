@@ -39,7 +39,6 @@
             this.button4 = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // serialPort1
@@ -142,24 +141,12 @@
             this.richTextBox1.TabIndex = 9;
             this.richTextBox1.Text = "";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Enabled = false;
-            this.checkBox1.Location = new System.Drawing.Point(12, 129);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(126, 17);
-            this.checkBox1.TabIndex = 10;
-            this.checkBox1.Text = "Auto baudrate detect";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(250, 412);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.button4);
@@ -189,7 +176,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

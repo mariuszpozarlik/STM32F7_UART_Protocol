@@ -134,6 +134,7 @@ namespace EZ_serial_monitor
             {
                 try
                 {
+
                     serialPort1.Close();
                 }
                 catch (System.IO.IOException)
@@ -147,7 +148,7 @@ namespace EZ_serial_monitor
             }
         }
 
-        private void updateMsg(string s)
+        private void updateMsg(object s)
         {
             if (this.richTextBox1.InvokeRequired)
             {
@@ -155,7 +156,7 @@ namespace EZ_serial_monitor
                 return;
             }
             richTextBox1.SelectionColor = Color.Green;
-            richTextBox1.AppendText(s);            
+            richTextBox1.AppendText((string)s);            
         }
 
         private void onReceive(object sender, SerialDataReceivedEventArgs e)
@@ -168,8 +169,7 @@ namespace EZ_serial_monitor
                 receive += Convert.ToChar(serialPort1.ReadByte());
                 timeout--;
             }
-            updateMsg(receive);
-
+            ThreadPool.QueueUserWorkItem(updateMsg, receive);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -181,5 +181,6 @@ namespace EZ_serial_monitor
         {
             t.Abort();
         }
+
     }
 }
