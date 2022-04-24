@@ -935,9 +935,9 @@ int main(void)
  8000942:	4821      	ldr	r0, [pc, #132]	; (80009c8 <main+0x158>)
  8000944:	f002 fbae 	bl	80030a4 <HAL_UART_Receive_IT>
 
-
   while(1)
   {
+	  //HAL_UART_Transmit_IT(&huart3, (const uint8_t*)"Hello world", strlen("Hello world"));
 
 	if (RX.RX_Frame_Cplt == 1) //nastapilo zakonczenie nadawania ramki
  8000948:	4b20      	ldr	r3, [pc, #128]	; (80009cc <main+0x15c>)

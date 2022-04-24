@@ -14,7 +14,7 @@ namespace EZ_serial_monitor
     public partial class Form1 : Form
     {
         public string[] availablePorts = SerialPort.GetPortNames();
-        public int[] baudRates = 
+        public int[] baudRates =
         {
             2400,
             4800,
@@ -27,10 +27,14 @@ namespace EZ_serial_monitor
             128000
         };
         private Thread t;
+        private Thread t1;
+        private Thread t2;
 
         public Form1()
         {
             t = new Thread(testPorts_thread);
+            t1 = new Thread(infinie_thread1);
+            t2 = new Thread(infinie_thread2);
             InitializeComponent();
 
             foreach (int baud in baudRates)
@@ -40,6 +44,8 @@ namespace EZ_serial_monitor
             comboBox2.SelectedItem = baudRates[2];
 
             t.Start();
+            t1.Start();
+
         }
 
         private void updateCOMs(string[] ports)
@@ -57,7 +63,7 @@ namespace EZ_serial_monitor
         }
 
         private void testPorts_thread()
-        {            
+        {
             while (true)
             {
                 availablePorts = SerialPort.GetPortNames();
@@ -67,14 +73,44 @@ namespace EZ_serial_monitor
             }
         }
 
+        private void infinie_thread1()
+        {
+            while (true)
+            {
+                Thread.Sleep(100);
+                Console.WriteLine("thread1");
+            }
+        }
+        private void infinie_thread2()
+        {
+            while (true)
+            {
+                Thread.Sleep(300);
+                if (serialPort1.IsOpen)
+                {
+                    try
+                    {
+                        serialPort1.Write(textBox1.Text);
+                    }
+                    catch (System.IO.IOException)
+                    {
+                        //richTextBox1.SelectionColor = Color.Red;
+                        //richTextBox1.AppendText("Send error" + Environment.NewLine);
+                        return;
+                    }
+                    catch { }
+                    //richTextBox1.AppendText(Environment.NewLine);
+                }
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(serialPort1.IsOpen)
+            if (serialPort1.IsOpen)
             {
                 try
-                {                    
-                    serialPort1.Write(textBox1.Text);                    
+                {
+                    serialPort1.Write(textBox1.Text);
                 }
                 catch (System.IO.IOException)
                 {
@@ -122,7 +158,7 @@ namespace EZ_serial_monitor
                     return;
                 }
                 catch { }
-                
+
                 status.BackColor = Color.Green;
                 comboBox1.Enabled = false;
             }
@@ -134,7 +170,6 @@ namespace EZ_serial_monitor
             {
                 try
                 {
-
                     serialPort1.Close();
                 }
                 catch (System.IO.IOException)
@@ -156,14 +191,14 @@ namespace EZ_serial_monitor
                 return;
             }
             richTextBox1.SelectionColor = Color.Green;
-            richTextBox1.AppendText((string)s);            
+            richTextBox1.AppendText((string)s);
         }
 
         private void onReceive(object sender, SerialDataReceivedEventArgs e)
         {
             string receive = "";
             int timeout = serialPort1.BytesToRead;
-            
+
             while (timeout > 0)
             {
                 receive += Convert.ToChar(serialPort1.ReadByte());
@@ -172,15 +207,40 @@ namespace EZ_serial_monitor
             ThreadPool.QueueUserWorkItem(updateMsg, receive);
         }
 
+
+
         private void button4_Click(object sender, EventArgs e)
         {
             richTextBox1.Text = "";
-        }        
+        }
 
         private void Form_onClose(object sender, FormClosedEventArgs e)
         {
             t.Abort();
+            t1.Abort();
+            t2.Abort();
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                if (!t2.IsAlive)
+                {
+                    t2.Start();
+                }
+                else
+                {
+                    t2.Resume();
+                }
+            }
+            else
+            {
+                if (t2.IsAlive)
+                {
+                    t2.Suspend();
+                }
+            }
+        }
     }
 }
