@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.IO.Ports;
+using System.IO;
 
 namespace EZ_serial_monitor
 {
@@ -26,15 +27,17 @@ namespace EZ_serial_monitor
             115200,
             128000
         };
-        private Thread t;
-        private Thread t1;
-        private Thread t2;
+        private Thread tp_thread;
+        private Thread l_thread;
+        private Thread ps_thread;
+        private string filePath = "";
+        private string fileBuffer = "";
 
         public Form1()
         {
-            t = new Thread(testPorts_thread);
-            t1 = new Thread(infinie_thread1);
-            t2 = new Thread(infinie_thread2);
+            tp_thread = new Thread(testPorts_Thread);
+            l_thread = new Thread(log_Thread);
+            ps_thread = new Thread(periodicSend_Thread);
             InitializeComponent();
 
             foreach (int baud in baudRates)
@@ -43,9 +46,8 @@ namespace EZ_serial_monitor
             }
             comboBox2.SelectedItem = baudRates[2];
 
-            t.Start();
-            t1.Start();
-
+            tp_thread.Start();
+            l_thread.Start();
         }
 
         private void updateCOMs(string[] ports)
@@ -62,7 +64,7 @@ namespace EZ_serial_monitor
             }
         }
 
-        private void testPorts_thread()
+        private void testPorts_Thread()
         {
             while (true)
             {
@@ -73,15 +75,25 @@ namespace EZ_serial_monitor
             }
         }
 
-        private void infinie_thread1()
+        private void log_Thread()
         {
             while (true)
             {
-                Thread.Sleep(100);
-                Console.WriteLine("thread1");
+                Thread.Sleep(300);
+                if (checkBox2.Checked == true && serialPort1.IsOpen)
+                {
+                    if (File.Exists(filePath))
+                    {
+                        using (StreamWriter sw = new StreamWriter(filePath))
+                        {
+                            sw.Write(fileBuffer);
+                        }
+                    }
+                }
             }
         }
-        private void infinie_thread2()
+
+        private void periodicSend_Thread()
         {
             while (true)
             {
@@ -94,12 +106,9 @@ namespace EZ_serial_monitor
                     }
                     catch (System.IO.IOException)
                     {
-                        //richTextBox1.SelectionColor = Color.Red;
-                        //richTextBox1.AppendText("Send error" + Environment.NewLine);
                         return;
                     }
                     catch { }
-                    //richTextBox1.AppendText(Environment.NewLine);
                 }
             }
         }
@@ -161,6 +170,8 @@ namespace EZ_serial_monitor
 
                 status.BackColor = Color.Green;
                 comboBox1.Enabled = false;
+                checkBox2.Enabled = false;
+                button5.Enabled = false;
             }
         }
 
@@ -180,6 +191,8 @@ namespace EZ_serial_monitor
                 catch { }
                 status.BackColor = Color.Red;
                 comboBox1.Enabled = true;
+                checkBox2.Enabled = true;
+                button5.Enabled = true;
             }
         }
 
@@ -192,6 +205,10 @@ namespace EZ_serial_monitor
             }
             richTextBox1.SelectionColor = Color.Green;
             richTextBox1.AppendText((string)s);
+            if (checkBox2.Checked == true)
+            {
+                fileBuffer += s;
+            }
         }
 
         private void onReceive(object sender, SerialDataReceivedEventArgs e)
@@ -207,39 +224,56 @@ namespace EZ_serial_monitor
             ThreadPool.QueueUserWorkItem(updateMsg, receive);
         }
 
-
-
         private void button4_Click(object sender, EventArgs e)
         {
             richTextBox1.Text = "";
+            fileBuffer = "";
         }
 
         private void Form_onClose(object sender, FormClosedEventArgs e)
         {
-            t.Abort();
-            t1.Abort();
-            t2.Abort();
+            tp_thread.Abort();
+            l_thread.Abort();
+            ps_thread.Abort();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked)
             {
-                if (!t2.IsAlive)
+                if (!ps_thread.IsAlive)
                 {
-                    t2.Start();
+                    ps_thread.Start();
                 }
                 else
                 {
-                    t2.Resume();
+                    ps_thread.Resume();
                 }
             }
             else
             {
-                if (t2.IsAlive)
+                if (ps_thread.IsAlive)
                 {
-                    t2.Suspend();
+                    ps_thread.Suspend();
                 }
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DialogResult restult = openFileDialog1.ShowDialog();
+            
+            if(restult == DialogResult.OK)
+            {
+                filePath = openFileDialog1.FileName;
+                if(filePath.EndsWith(".txt"))
+                {
+                    label2.Text = filePath;
+                }
+                else
+                {
+                    label2.Text = "File must be txt file";
+                }                
             }
         }
     }
