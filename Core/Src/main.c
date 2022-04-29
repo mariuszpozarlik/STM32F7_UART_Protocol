@@ -106,7 +106,6 @@ int main(void)
 
   while(1)
   {
-
 	if (RX.RX_Frame_Cplt == 1) //nastapilo zakonczenie nadawania ramki
 	{
 		myFrame = prarseRxBuffer();
@@ -117,7 +116,7 @@ int main(void)
 		}
 		else
 		{
-			HAL_UART_Transmit_IT(&huart3, (const uint8_t*)"frame Error", strlen("frame Error"));
+			HAL_UART_Transmit_IT(&huart3, (const uint8_t*)"frame Error\n", strlen("frame Error\n"));
 		}
 	}
   }

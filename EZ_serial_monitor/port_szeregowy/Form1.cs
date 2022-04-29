@@ -14,37 +14,28 @@ namespace EZ_serial_monitor
 {
     public partial class Form1 : Form
     {
-        public string[] availablePorts = SerialPort.GetPortNames();
-        public int[] baudRates =
-        {
-            2400,
-            4800,
-            9600,
-            14400,
-            19200,
-            38400,
-            57600,
-            115200,
-            128000
-        };
-        private Thread tp_thread;
-        private Thread l_thread;
-        private Thread ps_thread;
-        private string filePath = "";
-        private string fileBuffer = "";
-
         public Form1()
         {
             tp_thread = new Thread(testPorts_Thread);
             l_thread = new Thread(log_Thread);
             ps_thread = new Thread(periodicSend_Thread);
+
             InitializeComponent();
 
-            foreach (int baud in baudRates)
+            foreach (int baud in Constants.baudRates)
             {
                 comboBox2.Items.Add(baud);
             }
-            comboBox2.SelectedItem = baudRates[2];
+            comboBox2.SelectedItem = Constants.baudRates[2];
+
+            trackBar1.Value = Constants.defaultTextBuffSize;
+            label3.Text = "Text buffer size " + trackBar1.Value.ToString();
+
+            textBox1.AutoCompleteCustomSource = autoComplete;
+
+            tp_thread.IsBackground = true;
+            l_thread.IsBackground = true;
+            ps_thread.IsBackground = true;
 
             tp_thread.Start();
             l_thread.Start();
@@ -54,7 +45,12 @@ namespace EZ_serial_monitor
         {
             if (this.comboBox1.InvokeRequired)
             {
-                this.Invoke(new Action<string[]>(updateCOMs), new object[] { ports });
+                try
+                {
+                    this.Invoke(new Action<string[]>(updateCOMs), new object[] { ports });
+                }
+                catch (System.ObjectDisposedException) { }
+
                 return;
             }
             comboBox1.Items.Clear();
@@ -79,14 +75,15 @@ namespace EZ_serial_monitor
         {
             while (true)
             {
-                Thread.Sleep(300);
+                Thread.Sleep(500);
                 if (checkBox2.Checked == true && serialPort1.IsOpen)
                 {
                     if (File.Exists(filePath))
                     {
-                        using (StreamWriter sw = new StreamWriter(filePath))
+                        using (StreamWriter sw = File.AppendText(filePath))
                         {
                             sw.Write(fileBuffer);
+                            fileBuffer = "";
                         }
                     }
                 }
@@ -95,19 +92,23 @@ namespace EZ_serial_monitor
 
         private void periodicSend_Thread()
         {
+            int period_ms = Constants.defaultPeriod_ms; 
             while (true)
             {
-                Thread.Sleep(300);
+                try
+                {
+                    period_ms = int.Parse(textBox2.Text);
+                }
+                catch (System.FormatException) { }
+                catch { }
+                Thread.Sleep(period_ms);
                 if (serialPort1.IsOpen)
                 {
                     try
                     {
                         serialPort1.Write(textBox1.Text);
                     }
-                    catch (System.IO.IOException)
-                    {
-                        return;
-                    }
+                    catch (System.IO.IOException) { }
                     catch { }
                 }
             }
@@ -128,13 +129,19 @@ namespace EZ_serial_monitor
                     return;
                 }
                 catch { }
-                richTextBox1.AppendText(Environment.NewLine);
+                richTextBox1.Text += Environment.NewLine + "Sent -> " + textBox1.Text + " " + Environment.NewLine;
+                richTextBox1.Text += "Received: -> ";
+                autoComplete.Add(textBox1.Text);
             }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            serialPort1.PortName = comboBox1.SelectedItem.ToString();
+            try
+            {
+                serialPort1.PortName = comboBox1.SelectedItem.ToString();
+            }
+            catch { }
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -167,7 +174,7 @@ namespace EZ_serial_monitor
                     return;
                 }
                 catch { }
-
+                status.Text = "Connected";
                 status.BackColor = Color.Green;
                 comboBox1.Enabled = false;
                 checkBox2.Enabled = false;
@@ -189,6 +196,7 @@ namespace EZ_serial_monitor
                     richTextBox1.AppendText(comboBox1.Text + " port error" + Environment.NewLine);
                 }
                 catch { }
+                status.Text = "Not connected";
                 status.BackColor = Color.Red;
                 comboBox1.Enabled = true;
                 checkBox2.Enabled = true;
@@ -200,11 +208,20 @@ namespace EZ_serial_monitor
         {
             if (this.richTextBox1.InvokeRequired)
             {
-                this.Invoke(new Action<string>(updateMsg), new object[] { s });
+                try
+                {
+                    this.Invoke(new Action<string>(updateMsg), new object[] { s });
+                }
+                catch (System.ObjectDisposedException) { }
+               
                 return;
             }
             richTextBox1.SelectionColor = Color.Green;
-            richTextBox1.AppendText((string)s);
+            richTextBox1.Text += s;
+            if (richTextBox1.TextLength > trackBar1.Value)
+            {
+                richTextBox1.Clear();
+            }
             if (checkBox2.Checked == true)
             {
                 fileBuffer += s;
@@ -232,9 +249,9 @@ namespace EZ_serial_monitor
 
         private void Form_onClose(object sender, FormClosedEventArgs e)
         {
-            tp_thread.Abort();
-            l_thread.Abort();
-            ps_thread.Abort();
+            //tp_thread.Abort();
+            //l_thread.Abort();
+            //ps_thread.Abort();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -275,6 +292,11 @@ namespace EZ_serial_monitor
                     label2.Text = "File must be txt file";
                 }                
             }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            label3.Text = "Text buffer size " + trackBar1.Value.ToString();
         }
     }
 }

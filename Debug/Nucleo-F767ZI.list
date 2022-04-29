@@ -7,23 +7,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         00004728  080001f8  080001f8  000101f8  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000188  08004920  08004920  00014920  2**2
+  2 .rodata       0000018c  08004920  08004920  00014920  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  08004aa8  08004aa8  000201dc  2**0
+  3 .ARM.extab    00000000  08004aac  08004aac  000201dc  2**0
                   CONTENTS
-  4 .ARM          00000008  08004aa8  08004aa8  00014aa8  2**2
+  4 .ARM          00000008  08004aac  08004aac  00014aac  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  08004ab0  08004ab0  000201dc  2**0
+  5 .preinit_array 00000000  08004ab4  08004ab4  000201dc  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08004ab0  08004ab0  00014ab0  2**2
+  6 .init_array   00000004  08004ab4  08004ab4  00014ab4  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  08004ab4  08004ab4  00014ab4  2**2
+  7 .fini_array   00000004  08004ab8  08004ab8  00014ab8  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         000001dc  20000000  08004ab8  00020000  2**2
+  8 .data         000001dc  20000000  08004abc  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          000000d8  200001dc  08004c94  000201dc  2**2
+  9 .bss          000000d8  200001dc  08004c98  000201dc  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  200002b4  08004c94  000202b4  2**0
+ 10 ._user_heap_stack 00000604  200002b4  08004c98  000202b4  2**0
                   ALLOC
  11 .ARM.attributes 0000002e  00000000  00000000  000201dc  2**0
                   CONTENTS, READONLY
@@ -935,10 +935,9 @@ int main(void)
  8000942:	4821      	ldr	r0, [pc, #132]	; (80009c8 <main+0x158>)
  8000944:	f002 fbae 	bl	80030a4 <HAL_UART_Receive_IT>
 
+
   while(1)
   {
-	  //HAL_UART_Transmit_IT(&huart3, (const uint8_t*)"Hello world", strlen("Hello world"));
-
 	if (RX.RX_Frame_Cplt == 1) //nastapilo zakonczenie nadawania ramki
  8000948:	4b20      	ldr	r3, [pc, #128]	; (80009cc <main+0x15c>)
  800094a:	7d1b      	ldrb	r3, [r3, #20]
@@ -987,8 +986,8 @@ int main(void)
 		}
 		else
 		{
-			HAL_UART_Transmit_IT(&huart3, (const uint8_t*)"frame Error", strlen("frame Error"));
- 80009aa:	220b      	movs	r2, #11
+			HAL_UART_Transmit_IT(&huart3, (const uint8_t*)"frame Error\n", strlen("frame Error\n"));
+ 80009aa:	220c      	movs	r2, #12
  80009ac:	4908      	ldr	r1, [pc, #32]	; (80009d0 <main+0x160>)
  80009ae:	4806      	ldr	r0, [pc, #24]	; (80009c8 <main+0x158>)
  80009b0:	f002 fb0a 	bl	8002fc8 <HAL_UART_Transmit_IT>
@@ -2439,7 +2438,7 @@ LoopFillZerobss:
   ldr r1, =_edata
  80011c4:	200001dc 	.word	0x200001dc
   ldr r2, =_sidata
- 80011c8:	08004ab8 	.word	0x08004ab8
+ 80011c8:	08004abc 	.word	0x08004abc
   ldr r2, =_sbss
  80011cc:	200001dc 	.word	0x200001dc
   ldr r4, =_ebss
@@ -5831,7 +5830,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
  80024ae:	bf00      	nop
  80024b0:	40023c00 	.word	0x40023c00
  80024b4:	40023800 	.word	0x40023800
- 80024b8:	08004960 	.word	0x08004960
+ 80024b8:	08004964 	.word	0x08004964
  80024bc:	20000000 	.word	0x20000000
  80024c0:	20000004 	.word	0x20000004
 
@@ -6094,7 +6093,7 @@ uint32_t HAL_RCC_GetPCLK1Freq(void)
  80026a8:	4618      	mov	r0, r3
  80026aa:	bd80      	pop	{r7, pc}
  80026ac:	40023800 	.word	0x40023800
- 80026b0:	08004970 	.word	0x08004970
+ 80026b0:	08004974 	.word	0x08004974
 
 080026b4 <HAL_RCC_GetPCLK2Freq>:
   * @note   Each time PCLK2 changes, this function must be called to update the
@@ -6120,7 +6119,7 @@ uint32_t HAL_RCC_GetPCLK2Freq(void)
  80026d0:	4618      	mov	r0, r3
  80026d2:	bd80      	pop	{r7, pc}
  80026d4:	40023800 	.word	0x40023800
- 80026d8:	08004970 	.word	0x08004970
+ 80026d8:	08004974 	.word	0x08004974
 
 080026dc <HAL_RCCEx_PeriphCLKConfig>:
   *         the backup registers) are set to their reset values.
@@ -11286,10 +11285,10 @@ static void UART_RxISR_16BIT(UART_HandleTypeDef *huart)
  80046b6:	4798      	blx	r3
  80046b8:	3501      	adds	r5, #1
  80046ba:	e7f2      	b.n	80046a2 <__libc_init_array+0x1e>
- 80046bc:	08004ab0 	.word	0x08004ab0
- 80046c0:	08004ab0 	.word	0x08004ab0
- 80046c4:	08004ab0 	.word	0x08004ab0
- 80046c8:	08004ab4 	.word	0x08004ab4
+ 80046bc:	08004ab4 	.word	0x08004ab4
+ 80046c0:	08004ab4 	.word	0x08004ab4
+ 80046c4:	08004ab4 	.word	0x08004ab4
+ 80046c8:	08004ab8 	.word	0x08004ab8
 
 080046cc <__itoa>:
  80046cc:	1e93      	subs	r3, r2, #2
@@ -11517,7 +11516,7 @@ static void UART_RxISR_16BIT(UART_HandleTypeDef *huart)
  80048ba:	e7f4      	b.n	80048a6 <__utoa+0x5e>
  80048bc:	460b      	mov	r3, r1
  80048be:	e7e2      	b.n	8004886 <__utoa+0x3e>
- 80048c0:	08004978 	.word	0x08004978
+ 80048c0:	0800497c 	.word	0x0800497c
 
 080048c4 <__locale_ctype_ptr_l>:
  80048c4:	f8d0 00ec 	ldr.w	r0, [r0, #236]	; 0xec
