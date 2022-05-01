@@ -113,6 +113,7 @@ int main(void)
 		{
 			command_t co = commands(myFrame.command, &measbuff);
 			HAL_UART_Transmit_IT(&huart3, co.TX_payload, co.len);
+			HAL_UART_Transmit_IT(&huart3, '/n', 1);
 		}
 		else
 		{

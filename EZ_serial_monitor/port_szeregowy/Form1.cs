@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace EZ_serial_monitor
 {
@@ -39,6 +40,7 @@ namespace EZ_serial_monitor
 
             tp_thread.Start();
             l_thread.Start();
+           
         }
 
         private void updateCOMs(string[] ports)
@@ -297,6 +299,22 @@ namespace EZ_serial_monitor
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             label3.Text = "Text buffer size " + trackBar1.Value.ToString();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            SHA256 mySHA256 = SHA256.Create();
+            byte[] buff = Encoding.ASCII.GetBytes(textBox1.Text);
+            byte[] result = mySHA256.ComputeHash(buff);
+            string str_pass = "";
+            for (int i = 0; i < result.Length; i++)
+            {
+                str_pass += result[i].ToString();                
+            }
+            if (str_pass.Equals("5772041101041061861832615325144243163173221588128187511821101009419211475489511480"))
+            {
+                Console.WriteLine("pass ok");
+            }            
         }
     }
 }
