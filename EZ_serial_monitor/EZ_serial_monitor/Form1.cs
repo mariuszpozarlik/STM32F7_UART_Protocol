@@ -9,7 +9,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.IO;
-using System.Security.Cryptography;
 
 namespace EZ_serial_monitor
 {
@@ -303,15 +302,14 @@ namespace EZ_serial_monitor
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            SHA256 mySHA256 = SHA256.Create();
-            byte[] buff = Encoding.ASCII.GetBytes(textBox1.Text);
-            byte[] result = mySHA256.ComputeHash(buff);
-            string str_pass = "";
-            for (int i = 0; i < result.Length; i++)
+            StringBuilder strPass = new StringBuilder();
+            
+            byte[] result = mySHA256.ComputeHash(Encoding.ASCII.GetBytes(textBox1.Text));
+            foreach (byte b in result)
             {
-                str_pass += result[i].ToString();                
+                strPass.Append(b.ToString());
             }
-            if (str_pass.Equals("5772041101041061861832615325144243163173221588128187511821101009419211475489511480"))
+            if (strPass.ToString().Equals(Constants.storedPassHash))
             {
                 Console.WriteLine("pass ok");
             }            
