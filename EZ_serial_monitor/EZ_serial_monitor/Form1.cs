@@ -11,11 +11,12 @@ using System.IO.Ports;
 using System.IO;
 
 namespace EZ_serial_monitor
-{
+{ 
     public partial class Form1 : Form
     {
         public Form1()
         {
+
             tp_thread = new Thread(testPorts_Thread);
             l_thread = new Thread(log_Thread);
             ps_thread = new Thread(periodicSend_Thread);
@@ -42,7 +43,7 @@ namespace EZ_serial_monitor
            
         }
 
-        private void updateCOMs(string[] ports)
+        public void updateCOMs(string[] ports)
         {
             if (this.comboBox1.InvokeRequired)
             {
@@ -98,7 +99,8 @@ namespace EZ_serial_monitor
             {
                 try
                 {
-                    period_ms = int.Parse(textBox2.Text);
+                    if (int.TryParse(s: textBox2.Text, result: out period_ms)) { }
+                    period_ms = period_ms < 1 ? 1 : period_ms;
                 }
                 catch (System.FormatException) { }
                 catch { }
@@ -147,9 +149,13 @@ namespace EZ_serial_monitor
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Int32 Int32BaudRate = 0;
             try
             {
-                serialPort1.BaudRate = int.Parse(comboBox2.SelectedItem.ToString());
+                if(int.TryParse(s: comboBox2.SelectedItem.ToString(), result: out Int32BaudRate))
+                {
+                    serialPort1.BaudRate = Int32BaudRate;
+                }
             }
             catch (System.IO.IOException)
             {
@@ -236,8 +242,13 @@ namespace EZ_serial_monitor
 
             while (timeout > 0)
             {
-                receive += Convert.ToChar(serialPort1.ReadByte());
-                timeout--;
+                try
+                {
+                    receive += Convert.ToChar(serialPort1.ReadByte());
+                    timeout--;
+                }
+                catch (System.InvalidOperationException) { }
+                catch { }
             }
             ThreadPool.QueueUserWorkItem(updateMsg, receive);
         }
@@ -307,9 +318,9 @@ namespace EZ_serial_monitor
             byte[] result = mySHA256.ComputeHash(Encoding.ASCII.GetBytes(textBox1.Text));
             foreach (byte b in result)
             {
-                strPass.Append(b.ToString());
+                strPass.Append(b);
             }
-            if (strPass.ToString().Equals(Constants.storedPassHash))
+           if (strPass.ToString().Equals(Constants.storedPassHash))
             {
                 Console.WriteLine("pass ok");
             }            

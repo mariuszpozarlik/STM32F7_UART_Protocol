@@ -20,9 +20,10 @@ C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial
 C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\bin\Debug\EZ_serial_monitor.exe
 C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\bin\Debug\EZ_serial_monitor.pdb
 C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\obj\Debug\EZ_serial_monitor.csprojAssemblyReference.cache
-C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\obj\Debug\EZ_serial_monitor.Form1.resources
 C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\obj\Debug\EZ_serial_monitor.Properties.Resources.resources
 C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\obj\Debug\EZ_serial_monitor.csproj.GenerateResource.cache
 C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\obj\Debug\EZ_serial_monitor.csproj.CoreCompileInputs.cache
 C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\obj\Debug\EZ_serial_monitor.exe
 C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\obj\Debug\EZ_serial_monitor.pdb
+C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\obj\Debug\EZ_serial_monitor.Form1.resources
+C:\Users\Mariusz\Documents\CubeMXworkspace\Nucleo-F767ZI\Nucleo-F767ZI\EZ_serial_monitor\EZ_serial_monitor\obj\Debug\EZ_serial_monitor.myString.resources
