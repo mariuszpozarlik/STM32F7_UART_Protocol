@@ -22,7 +22,7 @@ namespace EZ_serial_monitor
 
         public static readonly int defaultTextBuffSize = 10000;
         public static readonly int defaultPeriod_ms = 100;
-        public static readonly string storedPassHash = "5772041101041061861832615325144243163173221588128187511821101009419211475489511480";
+        public static readonly string storedPassHash = "2151672171993544204581704410110154257261156566318915285111492319185215152141249121";
     }
 
     public partial class Form1 : Form

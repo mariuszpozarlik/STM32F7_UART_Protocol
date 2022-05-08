@@ -16,7 +16,7 @@ namespace EZ_serial_monitor
     {
         public Form1()
         {
-
+            
             tp_thread = new Thread(testPorts_Thread);
             l_thread = new Thread(log_Thread);
             ps_thread = new Thread(periodicSend_Thread);
@@ -314,15 +314,17 @@ namespace EZ_serial_monitor
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             StringBuilder strPass = new StringBuilder();
-            
-            byte[] result = mySHA256.ComputeHash(Encoding.ASCII.GetBytes(textBox1.Text));
+            byte[] tmp = Encoding.ASCII.GetBytes(textBox1.Text);
+            byte[] result = mySHA256.ComputeHash(tmp);
             foreach (byte b in result)
             {
                 strPass.Append(b);
             }
-           if (strPass.ToString().Equals(Constants.storedPassHash))
+            if (strPass.ToString().Equals(Constants.storedPassHash))
             {
-                Console.WriteLine("pass ok");
+                button2.Enabled = true;
+                button3.Enabled = true;
+                richTextBox1.AppendText("pass ok");
             }            
         }
     }
