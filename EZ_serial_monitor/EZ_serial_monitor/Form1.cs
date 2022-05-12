@@ -10,18 +10,19 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using System.IO;
 
+
 namespace EZ_serial_monitor
 { 
     public partial class Form1 : Form
     {
         public Form1()
         {
-            
             tp_thread = new Thread(testPorts_Thread);
             l_thread = new Thread(log_Thread);
             ps_thread = new Thread(periodicSend_Thread);
 
             InitializeComponent();
+            checkConfigFile();
 
             foreach (int baud in Constants.baudRates)
             {
@@ -43,23 +44,22 @@ namespace EZ_serial_monitor
            
         }
 
+        private void checkConfigFile()
+        {
+            throw new NotImplementedException();
+        }
+
         public void updateCOMs(string[] ports)
         {
-            if (this.comboBox1.InvokeRequired)
+            comboBox1.BeginInvoke(new Action(() =>
             {
-                try
+                comboBox1.Items.Clear();
+                foreach (string port in ports)
                 {
-                    this.Invoke(new Action<string[]>(updateCOMs), new object[] { ports });
+                    comboBox1.Items.Add(port);
                 }
-                catch (System.ObjectDisposedException) { }
+            }));
 
-                return;
-            }
-            comboBox1.Items.Clear();
-            foreach (string port in ports)
-            {
-                comboBox1.Items.Add(port);
-            }
         }
 
         private void testPorts_Thread()
@@ -211,28 +211,25 @@ namespace EZ_serial_monitor
             }
         }
 
-        private void updateMsg(object s)
+        private void updateMsg(object msg)
         {
-            if (this.richTextBox1.InvokeRequired)
+            richTextBox1.BeginInvoke(new Action(() =>
             {
-                try
+                richTextBox1.SelectionColor = Color.Green;
+                richTextBox1.Text += msg;
+                if (richTextBox1.TextLength > trackBar1.Value)
                 {
-                    this.Invoke(new Action<string>(updateMsg), new object[] { s });
+                    richTextBox1.Clear();
                 }
-                catch (System.ObjectDisposedException) { }
-               
-                return;
-            }
-            richTextBox1.SelectionColor = Color.Green;
-            richTextBox1.Text += s;
-            if (richTextBox1.TextLength > trackBar1.Value)
+            }));
+            checkBox2.BeginInvoke(new Action(() =>
             {
-                richTextBox1.Clear();
-            }
-            if (checkBox2.Checked == true)
-            {
-                fileBuffer += s;
-            }
+                if (checkBox2.Checked == true)
+                {
+                    fileBuffer += msg;
+                }
+            }));
+
         }
 
         private void onReceive(object sender, SerialDataReceivedEventArgs e)
@@ -250,7 +247,8 @@ namespace EZ_serial_monitor
                 catch (System.InvalidOperationException) { }
                 catch { }
             }
-            ThreadPool.QueueUserWorkItem(updateMsg, receive);
+            updateMsg(receive);
+            //ThreadPool.QueueUserWorkItem(updateMsg, receive);
         }
 
         private void button4_Click(object sender, EventArgs e)

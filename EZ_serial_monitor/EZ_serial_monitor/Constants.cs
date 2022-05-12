@@ -2,6 +2,7 @@
 using System.IO.Ports;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace EZ_serial_monitor
 {
@@ -22,7 +23,7 @@ namespace EZ_serial_monitor
 
         public static readonly int defaultTextBuffSize = 10000;
         public static readonly int defaultPeriod_ms = 100;
-        public static readonly string storedPassHash = "2151672171993544204581704410110154257261156566318915285111492319185215152141249121";
+        public static readonly string storedPassHash = "1452478524424015113731322411689153190191421981611321121852106923646132127551111637496";
     }
 
     public partial class Form1 : Form
@@ -34,6 +35,8 @@ namespace EZ_serial_monitor
         private string fileBuffer = "";
         private string[] availablePorts = SerialPort.GetPortNames();
         private AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
+        StreamWriter cfgFile = new StreamWriter($"{Directory.GetCurrentDirectory()}\\config.cfg");
         SHA256 mySHA256 = SHA256.Create();
+        
     }
 }
