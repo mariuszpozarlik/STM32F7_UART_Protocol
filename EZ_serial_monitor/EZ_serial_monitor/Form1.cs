@@ -16,13 +16,13 @@ namespace EZ_serial_monitor
     public partial class Form1 : Form
     {
         public Form1()
-        {
+        {            
             tp_thread = new Thread(testPorts_Thread);
             l_thread = new Thread(log_Thread);
             ps_thread = new Thread(periodicSend_Thread);
-
+            //string s = algirithm.Create();
             InitializeComponent();
-            checkConfigFile();
+            //checkConfigFile();
 
             foreach (int baud in Constants.baudRates)
             {
@@ -40,7 +40,7 @@ namespace EZ_serial_monitor
             ps_thread.IsBackground = true;
 
             tp_thread.Start();
-            l_thread.Start();
+            l_thread.Start();         
            
         }
 
@@ -311,19 +311,15 @@ namespace EZ_serial_monitor
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            StringBuilder strPass = new StringBuilder();
-            byte[] tmp = Encoding.ASCII.GetBytes(textBox1.Text);
-            byte[] result = mySHA256.ComputeHash(tmp);
-            foreach (byte b in result)
-            {
-                strPass.Append(b);
-            }
-            if (strPass.ToString().Equals(Constants.storedPassHash))
+            Algo algorithm = new Algo(textBox1.Text, 256);
+            string strPass = algorithm.Create();
+            if (strPass.Equals(Constants.storedPassHash))
             {
                 button2.Enabled = true;
                 button3.Enabled = true;
                 richTextBox1.AppendText("pass ok");
-            }            
+            }
+            Console.WriteLine(strPass);
         }
     }
 }
