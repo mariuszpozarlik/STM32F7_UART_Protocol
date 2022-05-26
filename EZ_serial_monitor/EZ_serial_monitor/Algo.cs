@@ -11,7 +11,7 @@ namespace EZ_serial_monitor
         private string __input_pass;
         private string __gen_hash;
         private uint __x;
-        private uint magic_number = 935108418;
+        private uint __magic_number;
         private readonly uint[,] __seed = 
         { 
             {0xbf ,0x01 ,0x72 ,0x7c ,0xee ,0xa0 ,0xf4 ,0xcb ,0xa9 ,0xdf ,0xf3 ,0xd9 ,0x6c ,0x1f ,0x3a ,0xac},
@@ -80,11 +80,12 @@ namespace EZ_serial_monitor
             {0xaa ,0x29 ,0xe6 ,0x40 ,0x9e ,0xbe ,0x65 ,0x1e ,0x52 ,0x73 ,0x9a ,0xf5 ,0x04 ,0x88 ,0x5d ,0x0d},
         };
 
-        public Algo(string input, uint algo_len = 256)
+        public Algo(string input, uint algo_len = 256, uint magic_number = 0)
         {
             __input_pass = input;
             __gen_hash = "";
             __x = algo_len;
+            __magic_number = magic_number;
         }
 
         public string Create()
@@ -95,9 +96,9 @@ namespace EZ_serial_monitor
                 char[] tmp = __input_pass.ToCharArray();
                 while(x > 0)
                 {
-                    __gen_hash += Convert.ToString(((((__seed[tmp[x % tmp.Length] % 64, tmp[x % tmp.Length] % 15]) ^ x * magic_number) ^ __input_pass.Length) % 0xFF), 16).ToUpper();
+                    __gen_hash += Convert.ToString(((((__seed[tmp[x % tmp.Length] % 64, tmp[x % tmp.Length] % 15]) ^ x * ++__magic_number) ^ __input_pass.Length) % 0xFF), 16).ToUpper();
                     x--;
-                    magic_number++;
+                    __magic_number += x*3;
                 }
                 return __gen_hash;
             }

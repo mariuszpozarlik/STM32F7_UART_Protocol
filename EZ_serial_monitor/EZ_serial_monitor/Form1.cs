@@ -40,8 +40,8 @@ namespace EZ_serial_monitor
             ps_thread.IsBackground = true;
 
             tp_thread.Start();
-            l_thread.Start();         
-           
+            l_thread.Start();
+
         }
 
         private void checkConfigFile()
@@ -311,15 +311,29 @@ namespace EZ_serial_monitor
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            Algo algorithm = new Algo(textBox1.Text, 256);
+            //Algo algorithm = new Algo(textBox1.Text, 128);
+            //string strPass = algorithm.Create();
+            //if (strPass.Equals(Constants.storedPassHash))
+            //{
+            //    button2.Enabled = true;
+            //    button3.Enabled = true;
+            //    richTextBox1.AppendText("pass ok");
+            //}
+            //Console.WriteLine(strPass);
+            string test = "a";
+            Algo algorithm = new Algo(test, 128);
             string strPass = algorithm.Create();
-            if (strPass.Equals(Constants.storedPassHash))
+
+            uint idx = 0;
+            while (true)
             {
-                button2.Enabled = true;
-                button3.Enabled = true;
-                richTextBox1.AppendText("pass ok");
+                Algo algorithm2 = new Algo(test += "a", 128);
+                if (algorithm2.Create().Equals(strPass))
+                {
+                    Console.WriteLine(strPass);
+                }
+                idx++;
             }
-            Console.WriteLine(strPass);
         }
     }
 }
