@@ -4,7 +4,7 @@ import time
 print("#### Serial command builder for STM32 ####\n")
 
 ser = serial.Serial(
-        port='COM5',
+        port='COM4',
         baudrate=115200)
 print("port settings: ", ser.baudrate)
 
@@ -29,12 +29,12 @@ for i in range(70):
     print(msg)
     ser.write(msg)
         
-    time.sleep(0.005)
+    time.sleep(0.020)
     
     print("returned from STM32: ", ser.read_all())
 
 ser.write(bytes("$1203I63179#", "ascii")) #message error test
-time.sleep(0.005)
+time.sleep(0.020)
 print(ser.read_all())
 
 ser.close()    

@@ -1,6 +1,8 @@
 #include "protocol.h"
 #include "stdlib.h"
 
+RX_buffer_t RX;
+
 void RXbufferClear(uint8_t* buff, int size) //memset
 {
 	while (size)

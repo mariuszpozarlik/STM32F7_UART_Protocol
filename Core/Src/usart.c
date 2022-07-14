@@ -22,6 +22,9 @@
 
 /* USER CODE BEGIN 0 */
 #include "protocol.h"
+
+extern RX_buffer_t RX;
+
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart3;

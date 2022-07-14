@@ -7,11 +7,13 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
 #include <string.h>
 #include <stdlib.h>
 #include "ringbuff.h"
 #include "protocol.h"
 #include "commands.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -20,7 +22,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
 
 /* USER CODE END PD */
 
@@ -42,7 +43,6 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-
 /* USER CODE END 0 */
 
 /**
@@ -54,6 +54,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 	buffer_t measbuff;
 	framecontent myFrame;
+	extern RX_buffer_t RX;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/

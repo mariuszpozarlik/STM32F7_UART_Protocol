@@ -1,2 +1,2 @@
-protocol.c:4:6:RXbufferClear	16	static
-protocol.c:19:14:prarseRxBuffer	64	static
+../Core/Src/protocol.c:6:6:RXbufferClear	16	static
+../Core/Src/protocol.c:21:14:prarseRxBuffer	64	static

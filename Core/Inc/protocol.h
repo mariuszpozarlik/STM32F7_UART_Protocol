@@ -8,15 +8,13 @@
 #define COMMAND_LEN 10
 #define RX_BUFF_SIZE 19
 
-typedef struct RX_buff
+typedef struct
 {
 	volatile uint8_t RX_Buffer[RX_BUFF_SIZE];// = { '\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'  };
 	volatile uint8_t RX_Buff_Idx;// = 0;
 	volatile uint8_t RX_Frame_Cplt;// = 0;
 	uint8_t c;
 }RX_buffer_t;
-
-RX_buffer_t RX;
 
 typedef struct frame
 {
@@ -27,6 +25,8 @@ typedef struct frame
 	uint8_t command[COMMAND_LEN];
 	uint8_t checksum;
 }framecontent;
+
+extern RX_buffer_t RX;
 
 void RXbufferClear(uint8_t* buff, int size);
 framecontent prarseRxBuffer();
