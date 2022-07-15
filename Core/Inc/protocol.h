@@ -10,9 +10,9 @@
 
 typedef struct
 {
-	volatile uint8_t RX_Buffer[RX_BUFF_SIZE];// = { '\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'  };
-	volatile uint8_t RX_Buff_Idx;// = 0;
-	volatile uint8_t RX_Frame_Cplt;// = 0;
+	volatile uint8_t RX_Buffer[RX_BUFF_SIZE]; // = { '\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'  };
+	volatile uint8_t RX_Buff_Idx; // = 0;
+	volatile uint8_t RX_Frame_Cplt; // = 0;
 	uint8_t c;
 }RX_buffer_t;
 

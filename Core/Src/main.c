@@ -2,6 +2,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -54,7 +55,6 @@ int main(void)
   /* USER CODE BEGIN 1 */
 	buffer_t measbuff;
 	framecontent myFrame;
-	extern RX_buffer_t RX;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -74,7 +74,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
+  MX_TIM1_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_Base_Start_IT(&htim3);
   bufferInit(&measbuff); //fill measurement buffer with dummy data
   for(uint32_t i = 0; i < RING_BUF_SIZE; ++i)
   {
@@ -84,21 +90,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint32_t addr = 0x08010010;
 
-  if(HAL_OK == HAL_FLASH_Unlock())
-  {
-	 //HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, ptr, 0x00000000);
-	  int i = 0;
-	  char* n = "Hello flash memory!!!";
-	  for(;i < strlen(n); ++i)
-	  {
-		  //FLASH_Erase_Sector(FLASH_SECTOR_20, FLASH_VOLTAGE_RANGE_3);
-		  HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, addr + i, n[i]);
-	  }
-
-	  HAL_FLASH_Lock();
-  }
 
   HAL_UART_Receive_IT(&huart3, (uint8_t*)&RX.c, 1);
 
