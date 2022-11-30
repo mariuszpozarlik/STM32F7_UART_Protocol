@@ -1,6 +1,0 @@
-../Core/Src/ringbuff.c:6:10:getLastElement	24	static
-../Core/Src/ringbuff.c:16:10:getOldestElement	24	static
-../Core/Src/ringbuff.c:26:10:getElementByIdx	24	static
-../Core/Src/ringbuff.c:47:6:bufferAddElement	16	static
-../Core/Src/ringbuff.c:82:9:bufferInit	24	static
-../Core/Src/ringbuff.c:99:9:bufferClear	24	static
